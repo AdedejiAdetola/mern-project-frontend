@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
+
+import { getPostsActions } from './actions/postActions';
 import Form from './components/FormComponent/Form';
 import Posts from './components/PostComponent/Posts';
 import memoriesImage from './images/memories.jpg'
@@ -7,6 +11,11 @@ import useStyles from './styles'
 
 const App = () => {
     const classes = useStyles();
+    const dispatch = useDispatch(); //useDispatch dispatches an action
+
+    useEffect(() => {
+        dispatch(getPostsActions());
+    }, [dispatch]); //useEffect is initially a componentDidMount but later turns to componentWillUpdate, here is where we use our dispatch function as the function updates the state
     return ( 
         <Container maxWidth='lg'>
             <AppBar className={classes.appBar} position='static' color='inherit'>
