@@ -16,3 +16,18 @@ export const getPostsActions = () => async (dispatch) => {
         console.log(error.message);
     }
 }
+
+export const createPostsActions = (post) => async (dispatch) => {
+    try {
+        const { data } = await api.createPosts(post);
+
+        const action = {
+            type: 'CREATE_POST',
+            payload: data
+        }
+
+        dispatch(action)
+    } catch (error) {
+        console.log(error.message)
+    }
+}

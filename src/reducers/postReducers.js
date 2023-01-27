@@ -3,7 +3,7 @@ export default (postState = [], action) => {
         case 'FETCH_ALL': //action to fetch all post
             return action.payload;        
         case 'CREATE_POST': //action to get all post
-            return postState;
+            return [...postState, action.payload];
         default:
             return postState;
 
