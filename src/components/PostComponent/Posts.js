@@ -4,10 +4,10 @@ import Post from "./Post/Post";
 import useStyles from './styles'
 
 const Posts = () => {
-    const postData = useSelector(state => state.postReducers);
+    const postLibrary = useSelector(state => state.postReducers);
     const classes = useStyles();
 
-    console.log(postData);
+    console.log(postLibrary);
     return ( 
         <>
             <h2>Posts</h2>
