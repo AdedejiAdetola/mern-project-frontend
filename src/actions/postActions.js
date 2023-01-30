@@ -1,5 +1,4 @@
 import * as api from '../api';
-
 //action creators - functions that return actions
 
 export const getPostsActions = () => async (dispatch) => {
