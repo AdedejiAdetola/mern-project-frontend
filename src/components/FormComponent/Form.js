@@ -14,7 +14,7 @@ const Form = () => {
         title:'',
         message:'',
         tags:'',
-        selectedFile:''
+        selectedImageFile:''
     });
 
     const handleSubmit = (e) => {
@@ -66,7 +66,7 @@ const Form = () => {
                 />
 
                 <div className={classes.fileInput}>
-                    <FileBase type='file' multiple={false} onDone = {({base64}) => setPostData({ ...postData, selectedFile: base64})}/>
+                    <FileBase type='file' multiple={false} onDone = {({base64}) => setPostData({ ...postData, selectedImageFile: base64})}/>
                 </div>
                 <Button className={classes.buttonSubmit} variant='contained' color='primary' size='large' fullWidth type='submit'>Submit</Button>
                 <Button variant='contained' color='secondary' size='small' fullWidth onClick={clear}>Clear</Button>
