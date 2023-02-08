@@ -1,5 +1,7 @@
 const postReducer = (postState = [], action) => {
     switch(action.type) {
+        case 'DELETE_POST':
+            return postState.filter((onePost) => onePost._id !== action.payload)
         case 'UPDATE_POST':
             return postState.map((onePost) => onePost._id === action.payload._id ? action.payload : onePost)
         case 'FETCH_ALL': //action to fetch all post
