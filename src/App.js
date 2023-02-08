@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
@@ -10,12 +10,13 @@ import memoriesImage from './images/memories.jpg'
 import useStyles from './styles'
 
 const App = () => {
+    const [currentId, setCurrentId] = useState(null);
     const classes = useStyles();
     const dispatch = useDispatch(); //useDispatch dispatches an action
 
     useEffect(() => {
         dispatch(getPostsActions());
-    }, [dispatch]); //useEffect is initially a componentDidMount but later turns to componentWillUpdate, here is where we use our dispatch function as the function updates the state
+    }, [dispatch]); //useEffect is initially a componentDidMount but later turns to componentWillUpdate, here is where we use our dispatch function as the function updates the state // app updates itself on EVERY dispatch
     return ( 
         <Container maxWidth='lg'>
             <AppBar className={classes.appBar} position='static' color='inherit'>
@@ -31,11 +32,11 @@ const App = () => {
                 <Container>
                     <Grid container justifyContent='space-between' alignItems='stretch' spacing={3}>
                         <Grid item xs={12} sm={7}>
-                            <Posts />
+                            <Posts setCurrentId={setCurrentId}/>
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <Form />
+                            <Form currentId={currentId} setCurrentId={setCurrentId}/>
                         </Grid>
                     </Grid>
                 </Container>

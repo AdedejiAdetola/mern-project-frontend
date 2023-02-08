@@ -12,7 +12,7 @@ export const getPostsActions = () => async (dispatch) => {
 
         dispatch(action)
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 }
 
@@ -27,6 +27,20 @@ export const createPostsActions = (post) => async (dispatch) => {
 
         dispatch(action)
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
+    }
+}
+
+export const updatePostsActions = (id, post) => async(dispatch) => {
+    try {
+        const { data } = await api.updatePosts(id, post);
+
+        const action = {
+            type: 'UPDATE_POST',
+            payload: data
+        }
+        dispatch(action)
+    } catch (error) {
+        console.log(error)
     }
 }
