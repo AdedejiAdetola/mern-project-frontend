@@ -1,17 +1,36 @@
 import React, {useState} from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import useStyles from './styles';
 import Input from './Input';
+import { useDispatch } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 const Auth = () => {
   const classes = useStyles();
+  const user = false;
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
-
+  const dispatch = useDispatch();
+    
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
   const switchMode = () => setIsSignUp((prevIsSignUp) => !prevIsSignUp)
   const handleSubmit = () => {
+
+  }
+
+  const createOrGetUser = async(response) => {
+    const decoded = jwt_decode(response.credential) //decode jwt token
+
+    const { name, email, picture, sub } = decoded //get the data
+
+
+    try {
+      dispatch({ type:'AUTH', data: { sub, email, name, picture} }) //dispatches action
+    } catch (error) {
+      console.log(error)
+    }
 
   }
 
@@ -41,6 +60,20 @@ const Auth = () => {
 
               { isSignup && <Input name='confirmPasword' label='Repeat Password' handleChange={handleChange} type='password'/>}
           </Grid>
+
+          <div>
+            {
+              //(response) => createOrGetUser(response)
+              user ? (
+                <div>Logged In</div>
+              ) : (
+                <GoogleLogin 
+                  onSuccess={(response) => createOrGetUser(response)} 
+
+                  onError={() => console.log('error')}
+                />
+              )}
+          </div>
 
           <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
             {isSignup ? 'Sign Up' : 'Sign In'}
