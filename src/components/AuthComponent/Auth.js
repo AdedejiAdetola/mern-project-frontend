@@ -6,12 +6,14 @@ import useStyles from './styles';
 import Input from './Input';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 const Auth = () => {
   const classes = useStyles();
   const user = false;
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); //replaced history = useHistory()
     
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
@@ -25,9 +27,13 @@ const Auth = () => {
 
     const { name, email, picture, sub } = decoded //get the data
 
+    //console.log(decoded)
+
 
     try {
-      dispatch({ type:'AUTH', data: { sub, email, name, picture} }) //dispatches action
+      dispatch({ type:'AUTH', data: { sub, email, name, picture} }) //dispatches action //all data could be decoded //sub represents the id
+
+      navigate('/');
     } catch (error) {
       console.log(error)
     }
