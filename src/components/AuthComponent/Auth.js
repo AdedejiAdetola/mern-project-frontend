@@ -7,19 +7,36 @@ import Input from './Input';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { signinAction, signupAction } from '../../actions/authActions'
+
+
+const initialState = { firstname: '', lastname: '', email: '', password:'', confirmPassword:'' }
+
 const Auth = () => {
   const classes = useStyles();
   const user = false;
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
+  const [formData, setFormata] = useState(initialState)
   const dispatch = useDispatch();
   const navigate = useNavigate(); //replaced history = useHistory()
     
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
   const switchMode = () => setIsSignUp((prevIsSignUp) => !prevIsSignUp)
-  const handleSubmit = () => {
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (isSignup) {
+      dispatch(signupAction(formData, navigate))
+    } else {
+      dispatch(signinAction(formData, navigate))
+    }
+  }
+
+  const handleChange = (e) => {
+    setFormata({ ...formData, [e.target.name]: e.target.value })
   }
 
   const createOrGetUser = async(response) => {
@@ -28,8 +45,6 @@ const Auth = () => {
     const { name, email, picture, sub } = decoded //get the data
 
     //console.log(decoded)
-
-
     try {
       dispatch({ type:'AUTH', data: { sub, email, name, picture} }) //dispatches action //all data could be decoded //sub represents the id
 
@@ -40,9 +55,7 @@ const Auth = () => {
 
   }
 
-  const handleChange = () => {
 
-  }
   return (
     <Container component='main' maxWidth='xs'>
       <Paper className={classes.paper} elevation={3}>
