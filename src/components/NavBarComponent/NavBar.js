@@ -12,7 +12,7 @@ const NavBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    //console.log(user);
+    console.log(user);
     const logout = () => {
       dispatch({ type: 'LOGOUT' })
       navigate('/');
@@ -20,7 +20,7 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-      const token = process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN;
+      const token = process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN || user?.token;
       setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location])
 
@@ -37,9 +37,11 @@ const NavBar = () => {
       <Toolbar className={classes.toolbar}>
         {
           user ? (
+            
             <div className={classes.profile}>
-              <Avatar className={classes.purple} alt={user?.name} src={user?.picture}>{user?.name.charAt(0)}</Avatar>
-              <Typography className={classes.userName} variant='h6'>{user?.name}</Typography>
+              <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.picture}>{user?.result.name.charAt(0)}</Avatar>
+              
+              <Typography className={classes.userName} variant='h6'>{user?.result.name}</Typography>
               <Button variant='contained' className={classes.logout} color='secondary' onClick={logout}>Logout</Button>
             </div>
           ) : (

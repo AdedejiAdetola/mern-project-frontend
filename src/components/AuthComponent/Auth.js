@@ -10,14 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import { signinAction, signupAction } from '../../actions/authActions'
 
 
-const initialState = { firstname: '', lastname: '', email: '', password:'', confirmPassword:'' }
+
 
 const Auth = () => {
+  const initialState = { firstname: '', lastname: '', email: '', password:'', confirmPassword:'' }
   const classes = useStyles();
   const user = false;
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
-  const [formData, setFormata] = useState(initialState)
+  const [formData, setFormData] = useState(initialState)
   const dispatch = useDispatch();
   const navigate = useNavigate(); //replaced history = useHistory()
     
@@ -30,13 +31,14 @@ const Auth = () => {
 
     if (isSignup) {
       dispatch(signupAction(formData, navigate))
+      console.log(formData)
     } else {
       dispatch(signinAction(formData, navigate))
     }
   }
 
   const handleChange = (e) => {
-    setFormata({ ...formData, [e.target.name]: e.target.value })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const createOrGetUser = async(response) => {
@@ -44,9 +46,16 @@ const Auth = () => {
 
     const { name, email, picture, sub } = decoded //get the data
 
+    const result = {
+      name,
+      email,
+      picture,
+      sub
+    }
+
     //console.log(decoded)
     try {
-      dispatch({ type:'AUTH', data: { sub, email, name, picture} }) //dispatches action //all data could be decoded //sub represents the id
+      dispatch({ type:'AUTH', data: { result } }) //dispatches action //all data could be decoded //sub represents the id
 
       navigate('/');
     } catch (error) {
@@ -77,7 +86,7 @@ const Auth = () => {
               <Input name='email' label='Email Address' handleChange={handleChange} type='email'/>
               <Input name='password' label='password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
 
-              { isSignup && <Input name='confirmPasword' label='Repeat Password' handleChange={handleChange} type='password'/>}
+              { isSignup && <Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password'/>}
           </Grid>
 
           <div>
