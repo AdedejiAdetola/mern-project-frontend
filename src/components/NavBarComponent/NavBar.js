@@ -3,6 +3,7 @@ import { AppBar, Typography, Grid, Toolbar, Avatar, Button } from '@material-ui/
 import memoriesImage from '../../images/memories.jpg';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './styles'
 
@@ -12,7 +13,7 @@ const NavBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(user);
+    //console.log(user);
     const logout = () => {
       dispatch({ type: 'LOGOUT' })
       navigate('/');
@@ -20,9 +21,18 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-      const token = process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN || user?.token;
+      const token = user?.token;
+
+      if (token) {
+        const decodedToken = decode(token);
+
+        if (decodedToken.exp * 1000 < new Date().getTime()){
+          logout();
+        }
+      }
+      //console.log('token', token)
       setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location])
+    }, [location, user?.token])
 
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import useStyles from './styles';
 import Input from './Input';
 import { useDispatch } from 'react-redux';
@@ -43,6 +43,7 @@ const Auth = () => {
 
   const createOrGetUser = async(response) => {
     const decoded = jwt_decode(response.credential) //decode jwt token
+    // console.log('resCred', response.credential);
 
     const { name, email, picture, sub } = decoded //get the data
 
@@ -53,9 +54,11 @@ const Auth = () => {
       sub
     }
 
+    const token = response.credential
+
     //console.log(decoded)
     try {
-      dispatch({ type:'AUTH', data: { result } }) //dispatches action //all data could be decoded //sub represents the id
+      dispatch({ type:'AUTH', data: { result, token } }) //dispatches action //all data could be decoded //sub represents the id
 
       navigate('/');
     } catch (error) {

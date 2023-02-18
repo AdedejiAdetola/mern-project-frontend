@@ -63,6 +63,7 @@ export const deletePostsActions = (id) => async(dispatch) => {
 export const likePostsAction = (id) => async(dispatch) => {
     try {
         const { data } = await api.likePosts(id);
+        console.log(data)
 
         const action = {
             type: 'LIKE_POST',
