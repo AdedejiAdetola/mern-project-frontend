@@ -12,7 +12,7 @@ import Auth from './components/AuthComponent/Auth';
 const App = () => {
     return ( 
         <BrowserRouter>
-            <GoogleOAuthProvider clientId='40664766087-60f9eep4nvma5daqgfhmsnerpgikr00o.apps.googleusercontent.com'>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN}>
                 <Container maxWidth='lg'>
                     <NavBar />
                     <Routes>
